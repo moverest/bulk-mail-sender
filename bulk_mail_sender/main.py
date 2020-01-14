@@ -7,7 +7,7 @@ import os
 import click
 from mako.template import Template
 
-from sendmail import connect_smtp, create_email, html_to_text
+from .sendmail import connect_smtp, create_email, html_to_text
 
 
 def read_env():
