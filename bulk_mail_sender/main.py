@@ -30,11 +30,16 @@ def open_listing(filename):
 @click.command()
 @click.argument('template_file', type=click.Path())
 @click.argument('listing_file', type=click.Path())
-@click.option('--dry-run', is_flag=True)
-@click.option('--sender-name', default='')
-@click.option('--sender-email', default=None)
-@click.option('--subject', 'subject_template_str', required=True)
-@click.option('--verbose', is_flag=True)
+@click.option('--dry-run', is_flag=True, help="Don't do anything.")
+@click.option('--sender-name', default='', help='Sender name shown in emails.')
+@click.option('--sender-email',
+              default=None,
+              help='Sender email (defaults to env SMTP_USERNAME)')
+@click.option('--subject',
+              'subject_template_str',
+              required=True,
+              help='Emails subject template.')
+@click.option('--verbose', is_flag=True, help='Verbose mode.')
 def main(template_file, listing_file, dry_run, sender_name, sender_email,
          subject_template_str, verbose):
     email_template = Template(filename=template_file)
