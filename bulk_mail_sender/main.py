@@ -3,6 +3,7 @@
 
 import csv
 import os
+from typing import Dict, Iterator
 
 import click
 from mako.template import Template
@@ -10,7 +11,7 @@ from mako.template import Template
 from .sendmail import connect_smtp, create_email, html_to_text
 
 
-def read_env():
+def read_env() -> Dict[str, str]:
     return {
         key: os.getenv(key.upper())
         for key in (
@@ -22,7 +23,7 @@ def read_env():
     }
 
 
-def open_listing(filename):
+def open_listing(filename: str) -> Iterator[Dict[str, str]]:
     with open(filename) as f:
         yield from csv.DictReader(f)
 

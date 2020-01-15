@@ -45,5 +45,5 @@ def connect_smtp(host: str, port: int, username: str, password: str):
     return conn
 
 
-def html_to_text(email):
-    return re.sub('<[^<]+?>', '', email)
+def html_to_text(text: str) -> str:
+    return re.sub('<[^<]+?>', '', str)
