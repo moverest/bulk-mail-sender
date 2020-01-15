@@ -12,13 +12,19 @@ from .sendmail import connect_smtp, create_email, html_to_text
 
 
 def read_env() -> Dict[str, str]:
+    def get_value(key: str) -> str:
+        value = os.getenv(key)
+        if value is None:
+            raise Exception(f'{key} environment variable not set.')
+        return value
+
     return {
-        key: os.getenv(key.upper())
-        for key in (
-            'smtp_username',
-            'smtp_password',
-            'smtp_host',
-            'smtp_port',
+        key: var_type(get_value(key.upper()))
+        for key, var_type in (
+            ('smtp_username', str),
+            ('smtp_password', str),
+            ('smtp_host', str),
+            ('smtp_port', int),
         )
     }
 
@@ -49,7 +55,7 @@ def main(template_file, listing_file, dry_run, sender_name, sender_email,
 
     if not dry_run:
         smtp_conn = connect_smtp(host=env['smtp_host'],
-                                 port=int(env['smtp_port']),
+                                 port=env['smtp_port'],
                                  username=env['smtp_username'],
                                  password=env['smtp_password'])
 
