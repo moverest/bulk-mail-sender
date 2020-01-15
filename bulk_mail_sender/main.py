@@ -59,7 +59,7 @@ def main(template_file, listing_file, dry_run, sender_name, sender_email,
                                  username=env['smtp_username'],
                                  password=env['smtp_password'])
 
-    for row in open_listing(listing_file):
+    for i, row in enumerate(open_listing(listing_file)):
         subject = subject_template.render(**row)
         email_html = email_template.render(**row)
 
@@ -67,7 +67,7 @@ def main(template_file, listing_file, dry_run, sender_name, sender_email,
             print('\x1b[32mSubject\x1b[0m:', subject)
             print(email_html)
 
-        print(f"\x1b[33m::{row['email']}\x1b[0m ", flush=True)
+        print(f"{i}\x1b[33m::\x1b[0m{row['email']}\x1b ", flush=True)
 
         email = create_email(
             sender_name=sender_name,
